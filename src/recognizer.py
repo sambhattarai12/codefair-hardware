@@ -6,7 +6,7 @@ import time
 import csv
 import json
 
-import exifread
+from . import exifread
 from openalpr import Alpr
 
 STALE_LOCK_AGE = 120 # ignore/remove locks older than this many seconds
