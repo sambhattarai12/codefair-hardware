@@ -6,7 +6,7 @@ import traceback
 import threading
 
 import picamera
-from . import gpspoll
+import gpspoll
 
 RESOLUTION_LOW = (1640,1232)
 RESOLUTION_HIGH = (3280,2464)

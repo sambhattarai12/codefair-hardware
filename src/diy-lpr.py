@@ -6,8 +6,8 @@ import random
 import sys
 import os
 
-from . import camcap
-from . import recognizer
+import camcap
+import recognizer
 
 
 import time
