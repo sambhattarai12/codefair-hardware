@@ -4,6 +4,7 @@ import sys
 import os
 import traceback
 import threading
+import random
 
 import picamera
 # import gpspoll
@@ -151,13 +152,15 @@ class camcap(threading.Thread):
     # capture a still photo w/ gps -- will exit if no GPS signal is available
     def still(self, file):
         # get GPS data
-        data = self.gpsp.get(self.gps_max_age);
+        # data = self.gpsp.get(self.gps_max_age);
+        data = None
         if (data == None):
             print("camcap:still - no gps fix, skipping photo")
             # return False
             return True
 
         # # set up GPS EXIF tags
+        self.camera.exif_tags['test'] = random.randint(1,1000000000)
         # self.camera.exif_tags['GPS.GPSLatitude'] = gpspoll.deg_to_str(data.latitude)
         # self.camera.exif_tags['GPS.GPSLatitudeRef'] = 'S' if data.latitude < 0 else 'N'
         # self.camera.exif_tags['GPS.GPSLongitude'] = gpspoll.deg_to_str(data.longitude)
