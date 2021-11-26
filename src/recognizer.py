@@ -13,7 +13,7 @@ STALE_LOCK_AGE = 120 # ignore/remove locks older than this many seconds
 
 class recognizer (threading.Thread):
     
-    min_conf_patternmatch = 75.0
+    min_conf_patternmatch = 10.0
     min_conf_nopatternmatch = 85.0
 
     lock = None

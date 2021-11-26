@@ -6,7 +6,7 @@ import traceback
 import threading
 
 import picamera
-import gpspoll
+# import gpspoll
 
 RESOLUTION_LOW = (1640, 1232)
 RESOLUTION_HIGH = (3280, 2464)
@@ -39,16 +39,16 @@ class camcap(threading.Thread):
 
         print("camcap:init - starting")
 
-        # set up GPS polling
+        #set up GPS polling
         print("camcap:init - setting up GPS")
-        try:
-            self.gpsp = gpspoll.gpspoll()
-        except:
-            print("camcap:init - could not start gpspoll")
-            traceback.print_exc()
-            exit()
+        # try:
+        #     self.gpsp = gpspoll.gpspoll()
+        # except:
+        #     print("camcap:init - could not start gpspoll")
+        #     traceback.print_exc()
+        #     exit()
 
-        self.gpsp.start()
+        # self.gpsp.start()
 
         # initialize the camera
         print("camcap:init - setting up camera")
@@ -62,11 +62,11 @@ class camcap(threading.Thread):
         print("camcap:init - done")
 
     # stop gps thread when camcap object goes away
-    def __del__(self):
-        if (self.gpsp):
-            print("camcap:del - stopping GPS")
-            self.gpsp.stop();
-            print("camcap:del - done")
+    # def __del__(self):
+    #     if (self.gpsp):
+    #         print("camcap:del - stopping GPS")
+    #         self.gpsp.stop();
+    #         print("camcap:del - done")
 
     def stop(self):
         print("camcap:stop - waiting for camcap timed capture thread to finish")
@@ -154,21 +154,22 @@ class camcap(threading.Thread):
         data = self.gpsp.get(self.gps_max_age);
         if (data == None):
             print("camcap:still - no gps fix, skipping photo")
-            return False
+            # return False
+            return True
 
-        # set up GPS EXIF tags
-        self.camera.exif_tags['GPS.GPSLatitude'] = gpspoll.deg_to_str(data.latitude)
-        self.camera.exif_tags['GPS.GPSLatitudeRef'] = 'S' if data.latitude < 0 else 'N'
-        self.camera.exif_tags['GPS.GPSLongitude'] = gpspoll.deg_to_str(data.longitude)
-        self.camera.exif_tags['GPS.GPSLongitudeRef'] = 'W' if data.longitude < 0 else 'E'
-        if (data.altitude):
-            self.camera.exif_tags['GPS.GPSAltitude'] = gpspoll.dist_to_str(data.altitude)
-            self.camera.exif_tags['GPS.GPSAltitudeRef'] = "0"  # assume we're above sea level
+        # # set up GPS EXIF tags
+        # self.camera.exif_tags['GPS.GPSLatitude'] = gpspoll.deg_to_str(data.latitude)
+        # self.camera.exif_tags['GPS.GPSLatitudeRef'] = 'S' if data.latitude < 0 else 'N'
+        # self.camera.exif_tags['GPS.GPSLongitude'] = gpspoll.deg_to_str(data.longitude)
+        # self.camera.exif_tags['GPS.GPSLongitudeRef'] = 'W' if data.longitude < 0 else 'E'
+        # if (data.altitude):
+        #     self.camera.exif_tags['GPS.GPSAltitude'] = gpspoll.dist_to_str(data.altitude)
+        #     self.camera.exif_tags['GPS.GPSAltitudeRef'] = "0"  # assume we're above sea level
 
-        if (data.speed):
-            self.camera.exif_tags['GPS.GPSSpeed'] = gpspoll.dist_to_str(
-                data.speed / 1000)  # divide to convert mph to kph
-            self.camera.exif_tags["GPS.GPSSpeedRef"] = "K"
+        # if (data.speed):
+        #     self.camera.exif_tags['GPS.GPSSpeed'] = gpspoll.dist_to_str(
+        #         data.speed / 1000)  # divide to convert mph to kph
+        #     self.camera.exif_tags["GPS.GPSSpeedRef"] = "K"
 
         # print "camcap:still - EXIF tags: {}".format(self.camera.exif_tags)
 
