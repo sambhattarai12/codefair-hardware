@@ -6,8 +6,8 @@ import random
 import sys
 import os
 
-import src.camcap as camcap
-import src.recognizer as recognizer
+import camcap
+import recognizer
 
 
 import time
